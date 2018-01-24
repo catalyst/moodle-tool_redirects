@@ -27,9 +27,41 @@ defined('MOODLE_INTERNAL') || die();
 
 class tool_redirects_redirect_rule_test extends advanced_testcase {
     /**
-     * Initial set up.
+     * Test config data.
+     *
+     * @var array
      */
-    protected function setUp() {
-        parent::setUp();
+    protected $configdata = [
+        'regex' => 'test regex',
+        'redirecturl' => 'http://example.com',
+        'enabled' => true,
+        'redirectadmin' => true,
+    ];
+
+    /**
+     * Test that can check if a rule is enabled based on config.
+     */
+    public function test_can_check_if_enabled() {
+        $config = new \tool_redirects\rule_config($this->configdata);
+        $rule = new \tool_redirects\redirect_rule($config);
+        $this->assertTrue($rule->is_enabled());
+
+        $this->configdata['enabled'] = false;
+        $config = new \tool_redirects\rule_config($this->configdata);
+        $rule = new \tool_redirects\redirect_rule($config);
+        $this->assertFalse($rule->is_enabled());
+    }
+
+    /**
+     * Test that can get redirect URL based on config.
+     */
+    public function test_can_get_redirect_url() {
+        $config = new \tool_redirects\rule_config($this->configdata);
+        $rule = new \tool_redirects\redirect_rule($config);
+
+        $url = $rule->get_redirect_url();
+
+        $this->assertTrue($url instanceof moodle_url);
+        $this->assertEquals('example.com', $url->get_host());
     }
 }
