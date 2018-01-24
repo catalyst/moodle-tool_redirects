@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Lib file.
+ * Tests for rule_config class.
  *
  * @package    tool_redirects
  * @author     Dmitrii Metelkin <dmitriim@catalyst-au.net>
@@ -25,19 +25,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Redirect users based on configuration.
- *
- * @throws \moodle_exception
- */
-function tool_redirects_before_http_headers() {
-    global $PAGE;
-
-    $rules = \tool_redirects\helper::get_all_rules();
-
-    foreach ($rules as $rule) {
-        if ($rule->is_enabled() && $rule->should_redirect($PAGE->url)) {
-            redirect($rule->get_redirect_url());
-        }
+class tool_redirects_rule_config_test extends advanced_testcase {
+    /**
+     * Initial set up.
+     */
+    protected function setUp() {
+        parent::setUp();
     }
 }

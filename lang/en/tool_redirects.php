@@ -27,6 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Redirects';
 $string['rules'] = 'Redirect settings';
-$string['rules_desc'] = "Each line should be a redirect rule like [URL to redirect from]=>[URL to redirect to]. E.g. /my/=>/course/view.php?id=2";
+$string['rules_desc'] = "Each line should be a redirect rule like [php regex of URL to redirect from]=>[URL to redirect to]. E.g. /my/=>/course/view.php?id=2";
 $string['redirectadmin'] = "Redirect administrators";
 $string['redirectadmin_desc'] = "If enabled site administrators will be redirected as well as other users.";
