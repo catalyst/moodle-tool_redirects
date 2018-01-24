@@ -27,9 +27,60 @@ defined('MOODLE_INTERNAL') || die();
 
 class tool_redirects_rule_config_test extends advanced_testcase {
     /**
-     * Initial set up.
+     * Test data.
+     *
+     * @var array
      */
-    protected function setUp() {
-        parent::setUp();
+    protected $data = [
+        'regex' => 'test regex',
+        'redirecturl' => 'test redirect url',
+        'enabled' => false,
+        'redirectadmin' => true,
+    ];
+
+    /**
+     * Test get exception when trying to set and then get random property.
+     *
+     * @expectedException \coding_exception
+     * @expectedExceptionMessage Invalid property random
+     */
+    public function test_that_can_not_set_random_property() {
+        $this->data['random'] = 'random';
+        $config = new \tool_redirects\rule_config($this->data);
+        $test = $config->random;
     }
+
+    /**
+     * Test get exception when getting invalid property.
+     *
+     * @expectedException \coding_exception
+     * @expectedExceptionMessage Invalid property invalid
+     */
+    public function test_throw_exception_on_invalid_property() {
+        $config = new \tool_redirects\rule_config($this->data);
+        $test = $config->invalid;
+    }
+
+    /**
+     * Test defaults.
+     */
+    public function test_properties_defaults() {
+        $config = new \tool_redirects\rule_config([]);
+        $this->assertEquals('', $config->regex);
+        $this->assertEquals('', $config->redirecturl);
+        $this->assertEquals(true, $config->enabled);
+        $this->assertEquals(false, $config->redirectadmin);
+    }
+
+    /**
+     * Test can set and then get properties.
+     */
+    public function test_can_set_and_get_properties() {
+        $config = new \tool_redirects\rule_config($this->data);
+        $this->assertEquals('test regex', $config->regex);
+        $this->assertEquals('test redirect url', $config->redirecturl);
+        $this->assertEquals(false, $config->enabled);
+        $this->assertEquals(true, $config->redirectadmin);
+    }
+
 }

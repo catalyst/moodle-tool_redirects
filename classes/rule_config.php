@@ -33,14 +33,14 @@ class rule_config {
      *
      * @var string
      */
-    protected $regex;
+    protected $regex = '';
 
     /**
      * URL to redirect to.
      *
      * @var string
      */
-    protected $redirecturl;
+    protected $redirecturl = '';
 
     /**
      * Enabled?
