@@ -15,14 +15,6 @@ A very simple plugin which allows admin to set redirects based on url.
 ## Backdoor option for Admins 
 Admins can bypass redirect by adding **noredirect=1** parameter to requested URL. E.g. http://moodle.example.com/my/?noredirect=1
 
-
-# Crafted by Catalyst IT
-This plugin was developed by Catalyst IT Australia:
-
-https://www.catalyst-au.net/
-
-<img alt="Catalyst IT" src="https://cdn.rawgit.com/CatalystIT-AU/moodle-auth_saml2/master/pix/catalyst-logo.svg" width="400">
-
 # Contributing and Support
 
 Issues, and pull requests using github are welcome and encouraged!
@@ -33,3 +25,12 @@ If you would like commercial support or would like to sponsor additional improve
 to this plugin please contact us:
 
 https://www.catalyst-au.net/contact-us
+
+
+# Crafted by Catalyst IT
+This plugin was developed by Catalyst IT Australia:
+
+https://www.catalyst-au.net/
+
+<img alt="Catalyst IT" src="https://cdn.rawgit.com/CatalystIT-AU/moodle-auth_saml2/master/pix/catalyst-logo.svg" width="400">
+
