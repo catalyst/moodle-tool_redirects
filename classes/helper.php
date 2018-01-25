@@ -68,7 +68,7 @@ abstract class helper {
             $items = explode("\n", $config->rules);
 
             foreach ($items as $item) {
-                $data = explode(self::SETTINGS_DELIMITER, $item, 2);
+                $data = explode(self::SETTINGS_DELIMITER, $item);
 
                 if (!empty($data[0] && !empty($data[1]))) {
                     $ruleconfig = new rule_config([

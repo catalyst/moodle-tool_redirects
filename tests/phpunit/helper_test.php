@@ -31,5 +31,73 @@ class tool_redirects_helper_test extends advanced_testcase {
      */
     protected function setUp() {
         parent::setUp();
+        $this->resetAfterTest(true);
+        $settings = "regex1=>http://url1.com\nregex2=>http://url2.com=>roles\nregex4=>\n=>http://url3.com=>";
+        set_config('rules', $settings, 'tool_redirects');
     }
+
+    /**
+     * Test config delimiter value.
+     */
+    public function test__config_delimiter() {
+        $this->assertEquals('=>', \tool_redirects\helper::SETTINGS_DELIMITER);
+    }
+
+    /**
+     * Test that can't build rules from DB.
+     *
+     * @expectedException \coding_exception
+     */
+    public function test_can_not_build_rules_from_db() {
+        \tool_redirects\helper::build_rules_from_db();
+    }
+
+    /**
+     * Test  building rules from empty config.
+     */
+    public function test_build_rules_from_empty_config() {
+        set_config('rules', '', 'tool_redirects');
+
+        $rules = \tool_redirects\helper::build_rules_from_config();
+
+        $this->assertTrue(is_array($rules));
+        $this->assertCount(0, $rules);
+    }
+
+    /**
+     * Test building rules form config correctly.
+     */
+    public function test_build_rules_from_config() {
+        $rules = \tool_redirects\helper::build_rules_from_config();
+
+        $this->assertTrue(is_array($rules));
+        $this->assertCount(2, $rules);
+        $this->assertTrue($rules[0] instanceof \tool_redirects\redirect_rule);
+        $this->assertTrue($rules[1] instanceof \tool_redirects\redirect_rule);
+
+        $this->assertEquals(true, $rules[0]->is_enabled());
+        $this->assertEquals('url1.com', $rules[0]->get_redirect_url()->get_host());
+
+        $this->assertEquals(true, $rules[1]->is_enabled());
+        $this->assertEquals('url2.com', $rules[1]->get_redirect_url()->get_host());
+    }
+
+    /**
+     * Test getting all rules correctly.
+     */
+    public function test_get_all_rules() {
+        $rules = \tool_redirects\helper::get_all_rules();
+
+        $this->assertTrue(is_array($rules));
+        $this->assertCount(2, $rules);
+        $this->assertTrue($rules[0] instanceof \tool_redirects\redirect_rule);
+        $this->assertTrue($rules[1] instanceof \tool_redirects\redirect_rule);
+
+        $this->assertEquals(true, $rules[0]->is_enabled());
+        $this->assertEquals('url1.com', $rules[0]->get_redirect_url()->get_host());
+
+        $this->assertEquals(true, $rules[1]->is_enabled());
+        $this->assertEquals('url2.com', $rules[1]->get_redirect_url()->get_host());
+    }
+
 }
