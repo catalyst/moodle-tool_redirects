@@ -47,7 +47,7 @@ abstract class helper {
      * @throws \dml_exception
      */
     public static function get_all_rules() {
-        if (!isset(self::$rules)) {
+        if (!isset(self::$rules) || PHPUNIT_TEST == true) {
             self::$rules = self::build_rules_from_config();
         }
 
