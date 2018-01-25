@@ -30,3 +30,5 @@ $string['rules'] = 'Redirect settings';
 $string['rules_desc'] = "Each line should be a redirect rule like [php regex of URL to redirect from]=>[URL to redirect to]. E.g. /my/=>/course/view.php?id=2";
 $string['redirectadmin'] = "Redirect administrators";
 $string['redirectadmin_desc'] = "If enabled site administrators will be redirected as well as other users.";
+$string['regex_error_too_short'] = 'RegEx too short';
+$string['regex_error_malformed'] = 'Invalid (malformed) RegEx';
