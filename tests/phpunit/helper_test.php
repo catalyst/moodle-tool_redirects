@@ -19,7 +19,7 @@
  *
  * @package    tool_redirects
  * @author     Dmitrii Metelkin <dmitriim@catalyst-au.net>
- * @copyright  2017 Catalyst IT Australia {@link http://www.catalyst-au.net}
+ * @copyright  2018 Catalyst IT Australia {@link http://www.catalyst-au.net}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

@@ -18,7 +18,7 @@
 /**
  * @package     tool_etl
  * @author      Daniel Thee Roperto <daniel.roperto@catalyst-au.net>
- * @copyright   2017 Catalyst IT Australia {@link http://www.catalyst-au.net}
+ * @copyright   2018 Catalyst IT Australia {@link http://www.catalyst-au.net}
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
