@@ -78,7 +78,7 @@ abstract class helper {
                         'redirectadmin' => isset($config->redirectadmin) ? $config->redirectadmin : false,
                     ]);
 
-                    $rules[] = new redirect_rule($ruleconfig);
+                    $rules[] = new redirect_rule($ruleconfig, new regex_validator($ruleconfig->regex));
                 }
             }
         }

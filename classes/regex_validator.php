@@ -26,7 +26,7 @@ namespace tool_redirects;
 
 defined('MOODLE_INTERNAL') || die();
 
-class regex_validator {
+class regex_validator implements rule_validator_interface {
     /** @var string */
     private $regex;
     /** @var string */

@@ -29,6 +29,11 @@ defined('MOODLE_INTERNAL') || die();
 
 class redirect_rule {
     /**
+     * Backdoor URL parameter for admins.
+     */
+    const NO_REDIRECT_PARAM = 'noredirect';
+
+    /**
      * Rule config data.
      *
      * @var rule_config
@@ -36,12 +41,21 @@ class redirect_rule {
     protected $config;
 
     /**
+     * Rule validator.
+     *
+     * @var rule_validator_interface
+     */
+    protected $validator;
+
+    /**
      * Constructor.
      *
      * @param rule_config $config Config object for a rule.
+     * @param rule_validator_interface $validator Rule validator.
      */
-    public function __construct(rule_config $config) {
+    public function __construct(rule_config $config, rule_validator_interface $validator) {
         $this->config = $config;
+        $this->validator = $validator;
     }
 
     /**
@@ -61,8 +75,30 @@ class redirect_rule {
      * @return bool
      */
     public function should_redirect(\moodle_url $url) {
-        // TODO: Implement should_redirect() method.
-        return true;
+        global $CFG;
+
+        // Check if it's local moodle URL.
+        $wwwroot = new \moodle_url($CFG->wwwroot);
+        if ($url->get_host() !== $wwwroot->get_host()) {
+            return false;
+        }
+
+        // Check for admin option.
+        if (is_siteadmin() && !$this->config->redirectadmin) {
+            return false;
+        }
+
+        // Check of backdoor for admins in case of a horrible mistake happened.
+        if (is_siteadmin() && $this->check_for_backdoor()) {
+            return false;
+        }
+
+        // Check valid rule.
+        if (!$this->validator->is_valid()) {
+            return false;
+        }
+
+        return (preg_match($this->config->regex, $url->out_as_local_url()) == 1);
     }
 
     /**
@@ -71,5 +107,15 @@ class redirect_rule {
      */
     public function get_redirect_url() {
         return new \moodle_url($this->config->redirecturl);
+    }
+
+    /**
+     * Check for the backdoor option.
+     *
+     * @return mixed
+     * @throws \coding_exception
+     */
+    protected function check_for_backdoor() {
+        return optional_param(self::NO_REDIRECT_PARAM, false, PARAM_INT);
     }
 }

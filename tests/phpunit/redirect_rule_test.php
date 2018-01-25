@@ -32,23 +32,37 @@ class tool_redirects_redirect_rule_test extends advanced_testcase {
      * @var array
      */
     protected $configdata = [
-        'regex' => 'test regex',
-        'redirecturl' => 'http://example.com',
+        'regex' => '#http://example.com/#',
+        'redirecturl' => 'http://example.com/',
         'enabled' => true,
         'redirectadmin' => true,
     ];
+
+    /**
+     * Initial set up.
+     */
+    protected function setUp() {
+        global $CFG;
+
+        parent::setUp();
+
+        $CFG->wwwroot = 'http://example.com';
+        $this->resetAfterTest(true);
+    }
 
     /**
      * Test that can check if a rule is enabled based on config.
      */
     public function test_can_check_if_enabled() {
         $config = new \tool_redirects\rule_config($this->configdata);
-        $rule = new \tool_redirects\redirect_rule($config);
+        $validator = new \tool_redirects\regex_validator($config->regex);
+        $rule = new \tool_redirects\redirect_rule($config, $validator);
         $this->assertTrue($rule->is_enabled());
 
         $this->configdata['enabled'] = false;
         $config = new \tool_redirects\rule_config($this->configdata);
-        $rule = new \tool_redirects\redirect_rule($config);
+        $validator = new \tool_redirects\regex_validator($config->regex);
+        $rule = new \tool_redirects\redirect_rule($config, $validator);
         $this->assertFalse($rule->is_enabled());
     }
 
@@ -57,11 +71,91 @@ class tool_redirects_redirect_rule_test extends advanced_testcase {
      */
     public function test_can_get_redirect_url() {
         $config = new \tool_redirects\rule_config($this->configdata);
-        $rule = new \tool_redirects\redirect_rule($config);
+        $validator = new \tool_redirects\regex_validator($config->regex);
+        $rule = new \tool_redirects\redirect_rule($config, $validator);
 
         $url = $rule->get_redirect_url();
 
         $this->assertTrue($url instanceof moodle_url);
         $this->assertEquals('example.com', $url->get_host());
     }
+
+    /**
+     * Test that should not redirect from external URLs.
+     */
+    public function test_should_not_redirect_from_external_urls() {
+        $this->setAdminUser();
+
+        $this->configdata['regex'] = '#.*#'; // Any path.
+
+        $config = new \tool_redirects\rule_config($this->configdata);
+        $validator = new \tool_redirects\regex_validator($config->regex);
+        $rule = new \tool_redirects\redirect_rule($config, $validator);
+        $this->assertFalse($rule->should_redirect(new moodle_url('http://external.com/')));
+    }
+
+    /**
+     * Test that admin users are redirected based on redirectadmin config option.
+     */
+    public function test_that_admins_are_redirected_based_on_redirectadmin_option() {
+        $this->setAdminUser();
+
+        $this->configdata['regex'] = '#.*#'; // Any path.
+
+        $config = new \tool_redirects\rule_config($this->configdata);
+        $validator = new \tool_redirects\regex_validator($config->regex);
+        $rule = new \tool_redirects\redirect_rule($config, $validator);
+        $this->assertTrue($rule->should_redirect(new moodle_url('http://example.com/index.php')));
+
+        $this->configdata['redirectadmin'] = false;
+        $config = new \tool_redirects\rule_config($this->configdata);
+        $validator = new \tool_redirects\regex_validator($config->regex);
+        $rule = new \tool_redirects\redirect_rule($config, $validator);
+        $this->assertFalse($rule->should_redirect(new moodle_url('http://example.com/')));
+    }
+
+    /**
+     * Test that admins can use backdoor option and avoid redirect.
+     */
+    public function test_that_admins_can_use_backdoor_option() {
+        $this->setAdminUser();
+
+        $this->configdata['regex'] = '#.*#'; // Any path.
+
+        $config = new \tool_redirects\rule_config($this->configdata);
+        $validator = new \tool_redirects\regex_validator($config->regex);
+        $rule = new \tool_redirects\redirect_rule($config, $validator);
+        $this->assertTrue($rule->should_redirect(new moodle_url('http://example.com/index.php')));
+
+        $_GET['noredirect'] = 1;
+        $this->assertFalse($rule->should_redirect(new moodle_url('http://example.com/index.php')));
+    }
+
+    /**
+     * Test that not admin users can't use backdoor oprion.
+     */
+    public function test_that_not_admins_can_not_use_backdoor_option() {
+        $this->configdata['regex'] = '#.*#'; // Any path.
+
+        $config = new \tool_redirects\rule_config($this->configdata);
+        $validator = new \tool_redirects\regex_validator($config->regex);
+        $rule = new \tool_redirects\redirect_rule($config, $validator);
+        $this->assertTrue($rule->should_redirect(new moodle_url('http://example.com/index.php')));
+
+        $_GET['noredirect'] = 1;
+        $this->assertTrue($rule->should_redirect(new moodle_url('http://example.com/index.php')));
+    }
+
+    /**
+     * Test that never redirects if broken regex rule provided.
+     */
+    public function test_should_not_redirect_on_broken_regex() {
+        $this->configdata['regex'] = '1'; // Broken regex rule.
+
+        $config = new \tool_redirects\rule_config($this->configdata);
+        $validator = new \tool_redirects\regex_validator($config->regex);
+        $rule = new \tool_redirects\redirect_rule($config, $validator);
+        $this->assertFalse($rule->should_redirect(new moodle_url('http://example.com/index.php')));
+    }
+
 }
