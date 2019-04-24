@@ -15,22 +15,26 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Lang strings.
+ * Privacy Subsystem implementation.
  *
- * @package    tool_redirects
- * @author     Dmitrii Metelkin <dmitriim@catalyst-au.net>
- * @copyright  2018 Catalyst IT Australia {@link http://www.catalyst-au.net}
+ * @package tool_redirects
+ * @author  Nathan Nguyen <nathannguyen@catalyst-au.net>
+ * @copyright  Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace tool_redirects\privacy;
+
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Redirects';
-$string['rules'] = 'Redirect settings';
-$string['rules_desc'] = "Each line should be a redirect rule like [php regex of URL to redirect from]=>[URL to redirect to]. E.g. /my/=>/course/view.php?id=2";
-$string['redirectadmin'] = "Redirect administrators";
-$string['redirectadmin_desc'] = "If enabled site administrators will be redirected as well as other users.";
-$string['regex_error_too_short'] = 'RegEx too short';
-$string['regex_error_malformed'] = 'Invalid (malformed) RegEx';
-// Privacy.
-$string['privacy:metadata'] = 'This plugin does not store personal data.';
+class provider implements \core_privacy\local\metadata\null_provider {
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+}
