@@ -9,7 +9,7 @@ A very simple plugin which allows admin to set redirects based on url.
 ## Configuration
 
 * Navigate to Site Administration > Plugins > Admin tools > Redirects
-* Add rules. Each line should be a redirect rule like [php regex of URL to redirect from]=>[local moodle path to redirect to]. E.g. #/my/#=>/course/view.php?id=2 
+* Add rules. Each line should be a redirect rule like [php regex of local moodle URL to redirect from]=>[any URL to redirect to]. E.g. #/my/#=>/course/view.php?id=2 
 * Enable or disable redirects for administrators
 
 ## Backdoor option for Admins 
