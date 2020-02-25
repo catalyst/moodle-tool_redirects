@@ -2,7 +2,7 @@ language: php
 
 addons:
   firefox: "47.0.1"
-  postgresql: "9.4"
+  postgresql: "9.5"
 
 cache:
   directories:
@@ -31,10 +31,6 @@ matrix:
       env: DB=mysqli MOODLE_BRANCH=MOODLE_35_STABLE
     - php: 7.1
       env: DB=pgsql MOODLE_BRANCH=MOODLE_35_STABLE
-    - php: 7.1
-      env: DB=mysqli MOODLE_BRANCH=master
-    - php: 7.1
-      env: DB=pgsql MOODLE_BRANCH=master
     # PHP 7.2
     - php: 7.2
       env: DB=mysqli MOODLE_BRANCH=MOODLE_34_STABLE
@@ -54,7 +50,7 @@ before_install:
   - nvm install 8.9
   - nvm use 8.9
   - cd ../..
-  - composer create-project -n --no-dev --prefer-dist moodlerooms/moodle-plugin-ci ci ^2
+  - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:
