@@ -94,4 +94,19 @@ abstract class helper {
     public static function build_rules_from_db() {
         throw new \coding_exception('Not implemented yet! Please use helper::build_rules_from_config');
     }
+
+    /**
+     * Redirects based on rules
+     */
+    public static function redirect_from_rules() {
+        global $PAGE;
+
+        $rules = self::get_all_rules();
+
+        foreach ($rules as $rule) {
+            if ($rule->is_enabled() && $rule->should_redirect($PAGE->url)) {
+                redirect($rule->get_redirect_url());
+            }
+        }
+    }
 }

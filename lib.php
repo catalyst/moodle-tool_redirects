@@ -31,13 +31,12 @@ defined('MOODLE_INTERNAL') || die();
  * @throws \moodle_exception
  */
 function tool_redirects_before_http_headers() {
-    global $PAGE;
-
-    $rules = \tool_redirects\helper::get_all_rules();
-
-    foreach ($rules as $rule) {
-        if ($rule->is_enabled() && $rule->should_redirect($PAGE->url)) {
-            redirect($rule->get_redirect_url());
-        }
-    }
+    \tool_redirects\helper::redirect_from_rules();
 }
+
+function tool_redirects_after_config() {
+    \tool_redirects\helper::redirect_from_rules();
+}
+
+
+
