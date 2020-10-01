@@ -101,11 +101,13 @@ abstract class helper {
     public static function redirect_from_rules() {
         global $PAGE;
 
-        $rules = self::get_all_rules();
+        if ($PAGE->has_set_url()) {
+            $rules = self::get_all_rules();
 
-        foreach ($rules as $rule) {
-            if ($rule->is_enabled() && $rule->should_redirect($PAGE->url)) {
-                redirect($rule->get_redirect_url());
+            foreach ($rules as $rule) {
+                if ($rule->is_enabled() && $rule->should_redirect($PAGE->url)) {
+                    redirect($rule->get_redirect_url());
+                }
             }
         }
     }
