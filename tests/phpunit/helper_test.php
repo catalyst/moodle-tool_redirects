@@ -29,7 +29,7 @@ class tool_redirects_helper_test extends advanced_testcase {
     /**
      * Initial set up.
      */
-    protected function setUp() {
+    protected function setUp(): void {
         parent::setUp();
         $this->resetAfterTest(true);
         $settings = "regex1=>http://url1.com\nregex2=>http://url2.com=>roles\nregex4=>\n=>http://url3.com=>";
@@ -41,15 +41,6 @@ class tool_redirects_helper_test extends advanced_testcase {
      */
     public function test__config_delimiter() {
         $this->assertEquals('=>', \tool_redirects\helper::SETTINGS_DELIMITER);
-    }
-
-    /**
-     * Test that can't build rules from DB.
-     *
-     * @expectedException \coding_exception
-     */
-    public function test_can_not_build_rules_from_db() {
-        \tool_redirects\helper::build_rules_from_db();
     }
 
     /**

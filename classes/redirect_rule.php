@@ -25,8 +25,9 @@
 
 namespace tool_redirects;
 
-defined('MOODLE_INTERNAL') || die();
-
+/**
+ * Manage a single redirect rule
+ */
 class redirect_rule {
     /**
      * Backdoor URL parameter for admins.

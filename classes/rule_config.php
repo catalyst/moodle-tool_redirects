@@ -25,8 +25,9 @@
 
 namespace tool_redirects;
 
-defined('MOODLE_INTERNAL') || die();
-
+/**
+ * Manage rule config
+ */
 class rule_config {
     /**
      * Rule regex string.

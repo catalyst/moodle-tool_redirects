@@ -23,8 +23,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Redirect users based on configuration.
  *
@@ -34,9 +32,12 @@ function tool_redirects_before_http_headers() {
     \tool_redirects\helper::redirect_from_rules();
 }
 
+/**
+ * Redirect users based on configuration.
+ *
+ * @throws \moodle_exception
+ */
 function tool_redirects_after_config() {
     \tool_redirects\helper::redirect_from_rules();
 }
-
-
 

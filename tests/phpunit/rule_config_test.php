@@ -23,9 +23,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace tool_redirects;
 
-class tool_redirects_rule_config_test extends advanced_testcase {
+/**
+ *
+ */
+class rule_config_test extends advanced_testcase {
     /**
      * Test data.
      *

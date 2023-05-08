@@ -25,6 +25,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Tests
+ */
 class tool_redirects_redirect_rule_test extends advanced_testcase {
     /**
      * Test config data.
@@ -41,7 +44,7 @@ class tool_redirects_redirect_rule_test extends advanced_testcase {
     /**
      * Initial set up.
      */
-    protected function setUp() {
+    protected function setUp(): void {
         global $CFG;
 
         parent::setUp();

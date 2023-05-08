@@ -22,8 +22,6 @@
  */
 use tool_redirects\regex_validator;
 
-defined('MOODLE_INTERNAL') || die();
-
 class tool_redirects_regex_validator_test extends advanced_testcase {
 
     public function provider_for_test_it_validates_the_regex() {

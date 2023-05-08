@@ -26,8 +26,6 @@
 
 namespace tool_redirects\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for tool_redirects implementing null_provider.
  *

@@ -25,8 +25,9 @@
 
 namespace tool_redirects;
 
-defined('MOODLE_INTERNAL') || die();
-
+/**
+ * Helper
+ */
 abstract class helper {
     /**
      * Rules delimited in the settings.
@@ -84,15 +85,6 @@ abstract class helper {
         }
 
         return $rules;
-    }
-
-    /**
-     * Build rules from DB.
-     *
-     * @throws \coding_exception
-     */
-    public static function build_rules_from_db() {
-        throw new \coding_exception('Not implemented yet! Please use helper::build_rules_from_config');
     }
 
     /**

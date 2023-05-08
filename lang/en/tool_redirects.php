@@ -35,7 +35,7 @@ $string['rules_desc'] = '<p>Each line should be a redirect rule like [php regex 
 #\/index\.php#=>https://some.other.site.com/
 </pre>
 
-<p>You can redirect from pages which do not exist as long as you have error pages setup correctly, see: 
+<p>You can redirect from pages which do not exist as long as you have error pages setup correctly, see:
 <a href="https://docs.moodle.org/dev/Error_pages">https://docs.moodle.org/dev/Error_pages</a></p>
 ';
 $string['redirectadmin'] = "Redirect administrators";
