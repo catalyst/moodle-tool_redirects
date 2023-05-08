@@ -103,6 +103,26 @@ class redirect_rule {
     }
 
     /**
+     * Check if we should warn instead of redirecting.
+     *
+     * @return bool
+     */
+    public function should_warn_instead_of_redirect() {
+
+        if (!is_siteadmin()) {
+            return false;
+        }
+        if ($this->noredirect_param_is_set()) {
+            return true;
+        }
+        if ($this->should_redirect_admins()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Check if we should redirect for admins.
      *
      * @return bool
@@ -125,7 +145,15 @@ class redirect_rule {
      * @return mixed
      * @throws \coding_exception
      */
-    public function check_for_backdoor() {
-        return optional_param(self::NO_REDIRECT_PARAM, false, PARAM_INT);
+    public function noredirect_param_is_set() {
+        global $FULLME;
+        // This only works for normal Moodle pages.
+        $param = optional_param(self::NO_REDIRECT_PARAM, false, PARAM_BOOL);
+
+        // This is needed to support vanity urls which don't exist via the error handler.
+        $url = new \moodle_url($FULLME);
+        $raw = clean_param($url->param(self::NO_REDIRECT_PARAM), PARAM_BOOL);
+
+        return $param || $raw;
     }
 }

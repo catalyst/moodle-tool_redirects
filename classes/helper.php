@@ -107,8 +107,7 @@ abstract class helper {
                 $target = $rule->get_redirect_url();
 
                 // Check of backdoor for admins in case of a horrible mistake happened.
-                if (is_siteadmin() &&
-                    ( !$rule->should_redirect_admins() || $rule->check_for_backdoor())) {
+                if ($rule->should_warn_instead_of_redirect()) {
                     \core\notification::info(get_string('redirectwarning', 'tool_redirects', [
                         'target'  => $target->out(),
                         'regex'   => $rule->get_regex(),

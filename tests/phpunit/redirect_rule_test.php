@@ -104,17 +104,18 @@ class tool_redirects_redirect_rule_test extends advanced_testcase {
         $this->setAdminUser();
 
         $this->configdata['regex'] = '#.*#'; // Any path.
-
-        $config = new \tool_redirects\rule_config($this->configdata);
-        $validator = new \tool_redirects\regex_validator($config->regex);
-        $rule = new \tool_redirects\redirect_rule($config, $validator);
-        $this->assertTrue($rule->should_redirect(new moodle_url('http://example.com/index.php')));
-
         $this->configdata['redirectadmin'] = false;
+
         $config = new \tool_redirects\rule_config($this->configdata);
         $validator = new \tool_redirects\regex_validator($config->regex);
         $rule = new \tool_redirects\redirect_rule($config, $validator);
-        $this->assertFalse($rule->should_redirect(new moodle_url('http://example.com/')));
+        $this->assertTrue($rule->should_warn_instead_of_redirect());
+
+        $this->configdata['redirectadmin'] = true;
+        $config = new \tool_redirects\rule_config($this->configdata);
+        $validator = new \tool_redirects\regex_validator($config->regex);
+        $rule = new \tool_redirects\redirect_rule($config, $validator);
+        $this->assertFalse($rule->should_warn_instead_of_redirect());
     }
 
     /**
@@ -128,10 +129,10 @@ class tool_redirects_redirect_rule_test extends advanced_testcase {
         $config = new \tool_redirects\rule_config($this->configdata);
         $validator = new \tool_redirects\regex_validator($config->regex);
         $rule = new \tool_redirects\redirect_rule($config, $validator);
-        $this->assertTrue($rule->should_redirect(new moodle_url('http://example.com/index.php')));
+        $this->assertFalse($rule->should_warn_instead_of_redirect());
 
         $_GET['noredirect'] = 1;
-        $this->assertFalse($rule->should_redirect(new moodle_url('http://example.com/index.php')));
+        $this->assertTrue($rule->should_warn_instead_of_redirect());
     }
 
     /**
@@ -143,10 +144,10 @@ class tool_redirects_redirect_rule_test extends advanced_testcase {
         $config = new \tool_redirects\rule_config($this->configdata);
         $validator = new \tool_redirects\regex_validator($config->regex);
         $rule = new \tool_redirects\redirect_rule($config, $validator);
-        $this->assertTrue($rule->should_redirect(new moodle_url('http://example.com/index.php')));
+        $this->assertFalse($rule->should_warn_instead_of_redirect());
 
         $_GET['noredirect'] = 1;
-        $this->assertTrue($rule->should_redirect(new moodle_url('http://example.com/index.php')));
+        $this->assertFalse($rule->should_warn_instead_of_redirect());
     }
 
     /**

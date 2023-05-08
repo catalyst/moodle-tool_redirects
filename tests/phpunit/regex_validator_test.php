@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Tests
+ *
  * @package     tool_redirects
  * @author      Daniel Thee Roperto <daniel.roperto@catalyst-au.net>
  * @copyright   2018 Catalyst IT Australia {@link http://www.catalyst-au.net}
@@ -22,8 +24,14 @@
  */
 use tool_redirects\regex_validator;
 
+/**
+ * Tests
+ */
 class tool_redirects_regex_validator_test extends advanced_testcase {
 
+    /**
+     * Provider
+     */
     public function provider_for_test_it_validates_the_regex() {
         return [
             'Empty RegEx is valid.'            => ['', true],
@@ -39,7 +47,10 @@ class tool_redirects_regex_validator_test extends advanced_testcase {
     }
 
     /**
+     * Provider
      * @dataProvider provider_for_test_it_validates_the_regex
+     * @param string $regex
+     * @param bool $acceptable
      */
     public function test_it_validates_the_regex($regex, $acceptable) {
         $validator = new regex_validator($regex);
@@ -47,6 +58,9 @@ class tool_redirects_regex_validator_test extends advanced_testcase {
         self::assertSame($acceptable, $validator->is_valid(), "{$regex} -> {$error}");
     }
 
+    /**
+     * Provider
+     */
     public function provider_for_test_it_throws_exception_if_regex_is_not_string() {
         return [
             [array(1)],
@@ -56,11 +70,12 @@ class tool_redirects_regex_validator_test extends advanced_testcase {
     }
 
     /**
+     * Test
      * @dataProvider provider_for_test_it_throws_exception_if_regex_is_not_string
-     * @expectedException coding_exception
-     * @expectedExceptionMessage Expecting regex to be a string
+     * @param string $regex
      */
     public function test_it_throws_exception_if_regex_is_not_string($regex) {
+        $this->expectException(\moodle_exception::class);
         $validator = new regex_validator($regex);
     }
 }
