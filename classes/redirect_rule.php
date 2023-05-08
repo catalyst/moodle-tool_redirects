@@ -68,6 +68,16 @@ class redirect_rule {
     }
 
     /**
+     * Return a reason for the redirect
+     *
+     * @return string
+     */
+    public function get_regex() {
+        return $this->config->regex;
+    }
+
+
+    /**
      * Check if we should redirect from provided URL.
      *
      * @param \moodle_url $url URL to check.
@@ -83,16 +93,6 @@ class redirect_rule {
             return false;
         }
 
-        // Check for admin option.
-        if (is_siteadmin() && !$this->config->redirectadmin) {
-            return false;
-        }
-
-        // Check of backdoor for admins in case of a horrible mistake happened.
-        if (is_siteadmin() && $this->check_for_backdoor()) {
-            return false;
-        }
-
         // Check valid rule.
         if (!$this->validator->is_valid()) {
             return false;
@@ -102,11 +102,20 @@ class redirect_rule {
     }
 
     /**
+     * Check if we should redirect for admins.
+     *
+     * @return bool
+     */
+    public function should_redirect_admins() {
+        return $this->config->redirectadmin;
+    }
+
+    /**
      * Return URL to redirect to.
      * @return \moodle_url
      */
     public function get_redirect_url() {
-        return new \moodle_url($this->config->redirecturl);
+        return new \moodle_url(trim($this->config->redirecturl));
     }
 
     /**
@@ -115,7 +124,7 @@ class redirect_rule {
      * @return mixed
      * @throws \coding_exception
      */
-    protected function check_for_backdoor() {
+    public function check_for_backdoor() {
         return optional_param(self::NO_REDIRECT_PARAM, false, PARAM_INT);
     }
 }
