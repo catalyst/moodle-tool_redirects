@@ -74,7 +74,12 @@ git format-patch MOODLE_35_STABLE --stdout > admin/tool/redirects/patch/new_core
 * Add rules. Each line should be a redirect rule like [php regex of local moodle URL to redirect from]=>[any URL to redirect to]. E.g. #/my/#=>/course/view.php?id=2 
 * Enable or disable redirects for administrators
 
-## Backdoor option for Admins 
+If you wish to use redirects for urls which do not exist, eg /some-vanity-url then your webserver
+needs to be configured to have Moodle handle error pages. Setup details are here:
+
+https://docs.moodle.org/dev/Error_pages
+
+## Backdoor option for Admins
 Admins can bypass redirect by adding **noredirect=1** parameter to requested URL. E.g. http://moodle.example.com/my/?noredirect=1
 
 # Contributing and Support
