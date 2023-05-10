@@ -23,9 +23,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace tool_redirects;
 
-class tool_redirects_helper_test extends advanced_testcase {
+/**
+ * Redirect helper
+ */
+class helper_test extends \advanced_testcase {
     /**
      * Initial set up.
      */

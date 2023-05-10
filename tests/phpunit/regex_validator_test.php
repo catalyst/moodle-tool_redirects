@@ -22,12 +22,15 @@
  * @copyright   2018 Catalyst IT Australia {@link http://www.catalyst-au.net}
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+namespace tool_redirects;
+
 use tool_redirects\regex_validator;
 
 /**
  * Tests
  */
-class tool_redirects_regex_validator_test extends advanced_testcase {
+class regex_validator_test extends \advanced_testcase {
 
     /**
      * Provider
@@ -64,7 +67,7 @@ class tool_redirects_regex_validator_test extends advanced_testcase {
     public function provider_for_test_it_throws_exception_if_regex_is_not_string() {
         return [
             [array(1)],
-            [new stdClass()],
+            [new \stdClass()],
             [1],
         ];
     }
