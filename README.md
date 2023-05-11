@@ -4,7 +4,7 @@
 
 # Configurable redirects for Moodle
 
-A very simple plugin which allows admin to set redirects based on url. 
+A very simple plugin which allows admin to set redirects based on url.
 
 ## Installation
 
@@ -71,8 +71,16 @@ git format-patch MOODLE_35_STABLE --stdout > admin/tool/redirects/patch/new_core
 ## Configuration
 
 * Navigate to Site Administration > Plugins > Admin tools > Redirects
-* Add rules. Each line should be a redirect rule like [php regex of local moodle URL to redirect from]=>[any URL to redirect to]. E.g. #/my/#=>/course/view.php?id=2 
 * Enable or disable redirects for administrators
+* Add rules. Each line should be a redirect rule like [php regex of local moodle URL to redirect from]=>[any URL to redirect to].
+  You must be quite careful with the escaping and to ensure you capture things you want such as the start of the path: 
+
+```
+#^\/my#=>/course/view.php?id=123
+#^\/course\/view\.php\?id=123#=>/some-target
+#^\/index\.php#=>/some-other-page
+#^\/index\.php#=>https://some.other.site.com/
+```
 
 If you wish to use redirects for urls which do not exist, eg /some-vanity-url then your webserver
 needs to be configured to have Moodle handle error pages. Setup details are here:

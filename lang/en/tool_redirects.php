@@ -29,10 +29,10 @@ $string['pluginname'] = 'Redirects';
 $string['rules'] = 'Redirect settings';
 $string['rules_desc'] = '<p>Each line should be a redirect rule like [php regex of URL to redirect from]=>[URL to redirect to]. Take care to escape / and . and ? in urls correctly, eg:</p>
 <pre>
-#\/my#=>/course/view.php?id=123
-#\/course\/view\.php\?id=123#=>/some-target
-#\/index\.php#=>/some-other-page
-#\/index\.php#=>https://some.other.site.com/
+#^\/my#=>/course/view.php?id=123
+#^\/course\/view\.php\?id=123#=>/some-target
+#^\/index\.php#=>/some-other-page
+#^\/index\.php#=>https://some.other.site.com/
 </pre>
 
 <p>You can redirect from pages which do not exist as long as you have error pages setup correctly, see:
