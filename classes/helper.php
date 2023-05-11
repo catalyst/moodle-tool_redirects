@@ -25,8 +25,9 @@
 
 namespace tool_redirects;
 
-defined('MOODLE_INTERNAL') || die();
-
+/**
+ * Helper
+ */
 abstract class helper {
     /**
      * Rules delimited in the settings.
@@ -87,28 +88,39 @@ abstract class helper {
     }
 
     /**
-     * Build rules from DB.
-     *
-     * @throws \coding_exception
-     */
-    public static function build_rules_from_db() {
-        throw new \coding_exception('Not implemented yet! Please use helper::build_rules_from_config');
-    }
-
-    /**
      * Redirects based on rules
      */
     public static function redirect_from_rules() {
-        global $PAGE;
+        global $FULLME;
 
-        if ($PAGE->has_set_url()) {
-            $rules = self::get_all_rules();
+        static $processed = false;
 
-            foreach ($rules as $rule) {
-                if ($rule->is_enabled() && $rule->should_redirect($PAGE->url)) {
-                    redirect($rule->get_redirect_url());
+        if ($processed) {
+            return;
+        }
+
+        $rules = self::get_all_rules();
+
+        foreach ($rules as $rule) {
+            if ($rule->is_enabled() && $rule->should_redirect(new \moodle_url($FULLME))) {
+
+                $target = $rule->get_redirect_url();
+
+                // Check of backdoor for admins in case of a horrible mistake happened.
+                if ($rule->should_warn_instead_of_redirect()) {
+                    \core\notification::info(get_string('redirectwarning', 'tool_redirects', [
+                        'target'  => $target->out(),
+                        'regex'   => $rule->get_regex(),
+                        'editurl' => (new \moodle_url('/admin/settings.php?section=tool_redirects'))->out(),
+                    ]));
+                    break;
                 }
+
+                redirect($target);
             }
         }
+
+        // Never process more than once, because we listen to more than one callback.
+        $processed = true;
     }
 }

@@ -23,9 +23,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace tool_redirects;
 
-class tool_redirects_rule_config_test extends advanced_testcase {
+/**
+ * Rules
+ */
+class rule_config_test extends \advanced_testcase {
     /**
      * Test data.
      *
@@ -40,11 +43,9 @@ class tool_redirects_rule_config_test extends advanced_testcase {
 
     /**
      * Test get exception when trying to set and then get random property.
-     *
-     * @expectedException \coding_exception
-     * @expectedExceptionMessage Invalid property random
      */
     public function test_that_can_not_set_random_property() {
+        $this->expectException(\moodle_exception::class);
         $this->data['random'] = 'random';
         $config = new \tool_redirects\rule_config($this->data);
         $test = $config->random;
@@ -52,11 +53,9 @@ class tool_redirects_rule_config_test extends advanced_testcase {
 
     /**
      * Test get exception when getting invalid property.
-     *
-     * @expectedException \coding_exception
-     * @expectedExceptionMessage Invalid property invalid
      */
     public function test_throw_exception_on_invalid_property() {
+        $this->expectException(\moodle_exception::class);
         $config = new \tool_redirects\rule_config($this->data);
         $test = $config->invalid;
     }

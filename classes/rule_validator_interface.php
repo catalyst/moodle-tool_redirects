@@ -25,8 +25,6 @@
 
 namespace tool_redirects;
 
-defined('MOODLE_INTERNAL') || die();
-
 interface rule_validator_interface {
 
     /** Check if the rule is valid.

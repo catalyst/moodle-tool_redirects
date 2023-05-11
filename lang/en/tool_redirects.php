@@ -27,9 +27,22 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Redirects';
 $string['rules'] = 'Redirect settings';
-$string['rules_desc'] = "Each line should be a redirect rule like [php regex of URL to redirect from]=>[URL to redirect to]. E.g. /my/=>/course/view.php?id=2";
+$string['rules_desc'] = '<p>Each line should be a redirect rule like [php regex of URL to redirect from]=>[URL to redirect to]. Take care to escape / and . and ? in urls correctly, eg:</p>
+<pre>
+#\/my#=>/course/view.php?id=123
+#\/course\/view\.php\?id=123#=>/some-target
+#\/index\.php#=>/some-other-page
+#\/index\.php#=>https://some.other.site.com/
+</pre>
+
+<p>You can redirect from pages which do not exist as long as you have error pages setup correctly, see:
+<a href="https://docs.moodle.org/dev/Error_pages">https://docs.moodle.org/dev/Error_pages</a></p>
+';
 $string['redirectadmin'] = "Redirect administrators";
 $string['redirectadmin_desc'] = "If enabled site administrators will be redirected as well as other users.";
+$string['redirectwarning'] = '<p>This pages url matched a regex: <code>{$a->regex}</code> and so would have redirected to:<p>
+<a href="{$a->target}">{$a->target}</a>
+<p>You are seeing this because you are able to <a href="{$a->editurl}">edit the redirect configuration</a>.</p>';
 $string['regex_error_too_short'] = 'RegEx too short';
 $string['regex_error_malformed'] = 'Invalid (malformed) RegEx';
 $string['privacy:metadata'] = 'The Redirects plugin does not store any personal data.';

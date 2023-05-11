@@ -25,8 +25,9 @@
 
 namespace tool_redirects;
 
-defined('MOODLE_INTERNAL') || die();
-
+/**
+ * Manage a single redirect rule
+ */
 class redirect_rule {
     /**
      * Backdoor URL parameter for admins.
@@ -68,6 +69,16 @@ class redirect_rule {
     }
 
     /**
+     * Return a reason for the redirect
+     *
+     * @return string
+     */
+    public function get_regex() {
+        return $this->config->regex;
+    }
+
+
+    /**
      * Check if we should redirect from provided URL.
      *
      * @param \moodle_url $url URL to check.
@@ -83,16 +94,6 @@ class redirect_rule {
             return false;
         }
 
-        // Check for admin option.
-        if (is_siteadmin() && !$this->config->redirectadmin) {
-            return false;
-        }
-
-        // Check of backdoor for admins in case of a horrible mistake happened.
-        if (is_siteadmin() && $this->check_for_backdoor()) {
-            return false;
-        }
-
         // Check valid rule.
         if (!$this->validator->is_valid()) {
             return false;
@@ -102,11 +103,40 @@ class redirect_rule {
     }
 
     /**
+     * Check if we should warn instead of redirecting.
+     *
+     * @return bool
+     */
+    public function should_warn_instead_of_redirect() {
+
+        if (!is_siteadmin()) {
+            return false;
+        }
+        if ($this->noredirect_param_is_set()) {
+            return true;
+        }
+        if ($this->should_redirect_admins()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Check if we should redirect for admins.
+     *
+     * @return bool
+     */
+    public function should_redirect_admins() {
+        return $this->config->redirectadmin;
+    }
+
+    /**
      * Return URL to redirect to.
      * @return \moodle_url
      */
     public function get_redirect_url() {
-        return new \moodle_url($this->config->redirecturl);
+        return new \moodle_url(trim($this->config->redirecturl));
     }
 
     /**
@@ -115,7 +145,15 @@ class redirect_rule {
      * @return mixed
      * @throws \coding_exception
      */
-    protected function check_for_backdoor() {
-        return optional_param(self::NO_REDIRECT_PARAM, false, PARAM_INT);
+    public function noredirect_param_is_set() {
+        global $FULLME;
+        // This only works for normal Moodle pages.
+        $param = optional_param(self::NO_REDIRECT_PARAM, false, PARAM_BOOL);
+
+        // This is needed to support vanity urls which don't exist via the error handler.
+        $url = new \moodle_url($FULLME);
+        $raw = clean_param($url->param(self::NO_REDIRECT_PARAM), PARAM_BOOL);
+
+        return $param || $raw;
     }
 }
