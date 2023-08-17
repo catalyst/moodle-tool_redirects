@@ -1,5 +1,5 @@
-<a href="https://github.com/catalyst/moodle-tool_redirects/actions">
-<img src="https://github.com/catalyst/moodle-tool_redirects/workflows/ci/badge.svg">
+<a href="https://github.com/catalyst/moodle-tool_redirects/actions/workflows/ci.yml?query=branch%3Amaster">
+<img src="https://github.com/catalyst/moodle-tool_redirects/workflows/ci/badge.svg?branch=master">
 </a>
 
 # Configurable redirects for Moodle
