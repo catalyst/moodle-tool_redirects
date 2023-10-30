@@ -152,7 +152,11 @@ class redirect_rule {
 
         // This is needed to support vanity urls which don't exist via the error handler.
         $url = new \moodle_url($FULLME);
-        $raw = clean_param($url->param(self::NO_REDIRECT_PARAM), PARAM_BOOL);
+        $raw = false;
+
+        if (!empty($param) && !empty($FULLME)) {
+            $raw = clean_param($url->param(self::NO_REDIRECT_PARAM), PARAM_BOOL);
+        }
 
         return $param || $raw;
     }
