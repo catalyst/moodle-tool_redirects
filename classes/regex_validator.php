@@ -86,7 +86,7 @@ class regex_validator implements rule_validator_interface {
         if (!is_null($this->error)) {
             return;
         }
-        if (@preg_match($this->regex, null) === false) {
+        if (@preg_match($this->regex, '') === false) {
             $this->error = 'malformed';
         }
     }
