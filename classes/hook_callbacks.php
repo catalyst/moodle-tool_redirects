@@ -14,20 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace tool_redirects;
+
 /**
- * Version details.
+ * Hook callbacks for tool_redirects.
  *
- * @package    tool_redirects
- * @author     Dmitrii Metelkin <dmitriim@catalyst-au.net>
- * @copyright  2018 Catalyst IT Australia {@link http://www.catalyst-au.net}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   tool_redirects
+ * @author    Benjamin Walker (benjaminwalker@catalyst-au.net)
+ * @copyright 2024 Catalyst IT
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+class hook_callbacks {
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version   = 2024052000;
-$plugin->release   = 2024052000; // Match release exactly to version.
-$plugin->requires  = 2017051500; // Moodle 3.3.
-$plugin->component = 'tool_redirects';
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->supported = [33, 404];     // Supports Moodle 3.5 or later.
+    /**
+     * Redirect users based on configuration.
+     *
+     * @param \core\hook\output\before_http_headers $hook
+     */
+    public static function before_http_headers(\core\hook\output\before_http_headers $hook): void {
+        \tool_redirects\helper::redirect_from_rules();
+    }
+}
