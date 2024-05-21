@@ -26,6 +26,9 @@
 /**
  * Redirect users based on configuration.
  *
+ * This is a legacy callback that is used for compatibility with older Moodle versions.
+ * Moodle 4.4+ will use tool_redirects\hook_callbacks::before_http_headers instead.
+ *
  * @throws \moodle_exception
  */
 function tool_redirects_before_http_headers() {
