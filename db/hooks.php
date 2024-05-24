@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 $callbacks = [
     [
         'hook' => \core\hook\output\before_http_headers::class,
-        'callback' => [\tool_redirects\hook_callbacks::class, 'before_http_headers'],
+        'callback' => '\tool_redirects\hook_callbacks::before_http_headers',
         'priority' => 0,
     ],
 ];
