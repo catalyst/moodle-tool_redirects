@@ -33,7 +33,7 @@ if (is_siteadmin()) {
     $name = 'tool_redirects/rules';
     $title = get_string('rules', 'tool_redirects');
     $description = get_string('rules_desc', 'tool_redirects');
-    $default = null;
+    $default = '';
     $setting = new admin_setting_configtextarea($name, $title, $description, $default);
     $settings->add($setting);
 
