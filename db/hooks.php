@@ -31,4 +31,8 @@ $callbacks = [
         'callback' => '\tool_redirects\hook_callbacks::before_http_headers',
         'priority' => 0,
     ],
+    [
+        'hook' => \core\hook\after_config::class,
+        'callback' => '\tool_redirects\hook_callbacks::after_config',
+    ],
 ];
