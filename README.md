@@ -8,6 +8,11 @@ A very simple plugin which allows admin to set redirects based on url. Redirects
 be from existing Moodle pages like from one course to another, or they can be 'vanity'
 urls from non existing urls into a page inside Moodle.
 
+## Branches
+| Moodle version    | Branch                                                                  | PHP  |
+|-------------------|-------------------------------------------------------------------------|------|
+| Moodle 4.1+       | [master](https://github.com/catalyst/moodle-tool_redirects/tree/master) | 7.4+ |
+
 ## Installation
 
 Step 1: Install the local module

@@ -16,6 +16,10 @@
 
 namespace tool_redirects;
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once($CFG->dirroot . '/admin/tool/redirects/lib.php');
+
 /**
  * Hook callbacks for tool_redirects.
  *
@@ -33,5 +37,21 @@ class hook_callbacks {
      */
     public static function before_http_headers(\core\hook\output\before_http_headers $hook): void {
         \tool_redirects\helper::redirect_from_rules();
+    }
+
+    /**
+     * Listener for the after_config hook.
+     *
+     * @param \core\hook\after_config $hook
+     */
+    public static function after_config(\core\hook\after_config $hook): void {
+        global $CFG;
+
+        if (during_initial_install() || isset($CFG->upgraderunning)) {
+            // Do nothing during installation or upgrade.
+            return;
+        }
+
+        tool_redirects_after_config();
     }
 }
