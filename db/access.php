@@ -15,19 +15,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Capabilities.
+ *
+ * This files lists capabilities related to tool_redirects.
  *
  * @package    tool_redirects
- * @author     Dmitrii Metelkin <dmitriim@catalyst-au.net>
- * @copyright  2018 Catalyst IT Australia {@link http://www.catalyst-au.net}
+ * @author     Benjamin Walker <benjaminwalker@catalyst-au.net>
+ * @copyright  2024, Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2024120200;
-$plugin->release   = 2024120200; // Match release exactly to version.
-$plugin->requires  = 2017051500; // Moodle 3.3.
-$plugin->component = 'tool_redirects';
-$plugin->maturity  = MATURITY_STABLE;
-$plugin->supported = [33, 405];     // Supports Moodle 3.5 or later.
+$capabilities = [
+    'tool/redirects:manage' => [
+        'riskbitmask' => RISK_XSS | RISK_CONFIG,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => [
+            'manager' => CAP_ALLOW,
+        ],
+    ],
+];

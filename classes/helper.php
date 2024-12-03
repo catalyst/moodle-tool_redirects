@@ -111,7 +111,7 @@ abstract class helper {
                     \core\notification::info(get_string('redirectwarning', 'tool_redirects', [
                         'target'  => $target->out(),
                         'regex'   => $rule->get_regex(),
-                        'editurl' => (new \moodle_url('/admin/settings.php?section=tool_redirects'))->out(),
+                        'editurl' => (new \moodle_url('/admin/tool/redirects/index.php'))->out(),
                     ]));
                     break;
                 }
