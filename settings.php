@@ -27,15 +27,18 @@ defined('MOODLE_INTERNAL') || die();
 
 if (is_siteadmin()) {
 
-    $settings = new admin_settingpage('tool_redirects', get_string('pluginname', 'tool_redirects'));
-    $ADMIN->add('tools', $settings);
+    $category = new admin_category('tool_redirects', get_string('pluginname', 'tool_redirects'));
+    $ADMIN->add('tools', $category);
 
-    $name = 'tool_redirects/rules';
-    $title = get_string('rules', 'tool_redirects');
-    $description = get_string('rules_desc', 'tool_redirects');
-    $default = '';
-    $setting = new admin_setting_configtextarea($name, $title, $description, $default);
-    $settings->add($setting);
+    $settings = new admin_settingpage('tool_redirects_settings', get_string('generalsettings', 'admin'));
+    $ADMIN->add('tool_redirects', $settings);
+
+    $ADMIN->add('tool_redirects', new admin_externalpage(
+        'tool_redirects_manage',
+        get_string('redirects:manage', 'tool_redirects'),
+        new moodle_url('/admin/tool/redirects/index.php'),
+        'tool/redirects:manage'
+    ));
 
     $name = 'tool_redirects/redirectadmin';
     $title = get_string('redirectadmin', 'tool_redirects');

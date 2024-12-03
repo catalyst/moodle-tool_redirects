@@ -43,6 +43,7 @@ $string['redirectadmin_desc'] = "If enabled site administrators will be redirect
 $string['redirectwarning'] = '<p>This pages url matched a regex: <code>{$a->regex}</code> and so would have redirected to:<p>
 <a href="{$a->target}">{$a->target}</a>
 <p>You are seeing this because you are able to <a href="{$a->editurl}">edit the redirect configuration</a>.</p>';
+$string['redirects:manage'] = 'Manage redirect rules';
 $string['regex_error_too_short'] = 'RegEx too short';
 $string['regex_error_malformed'] = 'Invalid (malformed) RegEx';
 $string['privacy:metadata'] = 'The Redirects plugin does not store any personal data.';
