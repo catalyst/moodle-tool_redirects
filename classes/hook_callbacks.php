@@ -36,6 +36,12 @@ class hook_callbacks {
      * @param \core\hook\output\before_http_headers $hook
      */
     public static function before_http_headers(\core\hook\output\before_http_headers $hook): void {
+        global $CFG;
+
+        if (during_initial_install() || isset($CFG->upgraderunning)) {
+            return;
+        }
+
         \tool_redirects\helper::redirect_from_rules();
     }
 
