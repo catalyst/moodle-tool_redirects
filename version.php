@@ -25,8 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2024120200;
-$plugin->release   = 2024120200; // Match release exactly to version.
+$plugin->version   = 2025080600;
+$plugin->release   = 2025080600; // Match release exactly to version.
 $plugin->requires  = 2022112800; // Moodle 4.1.
 $plugin->component = 'tool_redirects';
 $plugin->maturity  = MATURITY_STABLE;
