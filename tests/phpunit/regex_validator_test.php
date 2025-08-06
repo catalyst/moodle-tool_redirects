@@ -65,8 +65,10 @@ class regex_validator_test extends \advanced_testcase {
 
     /**
      * Provider
+     *
+     * @return array
      */
-    public function provider_for_test_it_throws_exception_if_regex_is_not_string() {
+    public function provider_for_test_it_throws_exception_if_regex_is_not_string(): array {
         return [
             [array(1)],
             [new \stdClass()],
