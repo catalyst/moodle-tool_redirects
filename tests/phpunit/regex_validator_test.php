@@ -34,8 +34,10 @@ class regex_validator_test extends \advanced_testcase {
 
     /**
      * Provider
+     *
+     * @return array
      */
-    public function provider_for_test_it_validates_the_regex() {
+    public function provider_for_test_it_validates_the_regex(): array {
         return [
             'Empty RegEx is valid.'            => ['', true],
             'RegEx is too short'               => ['//', true],
