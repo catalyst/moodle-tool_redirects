@@ -30,4 +30,4 @@ $plugin->release   = 2024120200; // Match release exactly to version.
 $plugin->requires  = 2017051500; // Moodle 3.3.
 $plugin->component = 'tool_redirects';
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->supported = [33, 405];     // Supports Moodle 3.5 or later.
+$plugin->supported = [33, 400];     // Supports Moodle 3.5 or later.
