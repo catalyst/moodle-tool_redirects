@@ -1,6 +1,6 @@
-<a href="https://github.com/catalyst/moodle-tool_redirects/actions/workflows/ci.yml?query=branch%3Amaster">
-<img src="https://github.com/catalyst/moodle-tool_redirects/workflows/ci/badge.svg?branch=master">
-</a>
+[![ci](https://github.com/catalyst/moodle-tool_redirects/actions/workflows/ci.yml/badge.svg?branch=MOODLE_401_STABLE)](https://github.com/catalyst/moodle-tool_redirects/actions/workflows/ci.yml?branch=MOODLE_401_STABLE)
+
+
 
 # Configurable redirects for Moodle
 
