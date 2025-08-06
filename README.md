@@ -9,9 +9,10 @@ be from existing Moodle pages like from one course to another, or they can be 'v
 urls from non existing urls into a page inside Moodle.
 
 ## Branches
-| Moodle version    | Branch                                                                  | PHP  |
-|-------------------|-------------------------------------------------------------------------|------|
-| Moodle 4.1+       | [master](https://github.com/catalyst/moodle-tool_redirects/tree/master) | 7.4+ |
+| Moodle version        | Branch                                                                                        | PHP  |
+|-----------------------|-----------------------------------------------------------------------------------------------|------|
+| Prior to Moodle 4.1   | [master](https://github.com/catalyst/moodle-tool_redirects/tree/master)                       | 7.4+ |
+| Moodle 4.1+           | [MOODLE_401_STABLE](https://github.com/catalyst/moodle-tool_redirects/tree/MOODLE_401_STABLE) | 7.4+ |
 
 ## Installation
 
