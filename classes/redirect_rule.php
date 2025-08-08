@@ -136,7 +136,9 @@ class redirect_rule {
      * @return \moodle_url
      */
     public function get_redirect_url() {
-        return new \moodle_url(trim($this->config->redirecturl));
+        $url = trim($this->config->redirecturl);
+        $url = str_replace('[SESSKEY]', sesskey(), $url);
+        return new \moodle_url($url);
     }
 
     /**
