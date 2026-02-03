@@ -93,6 +93,21 @@ abstract class helper {
     public static function redirect_from_rules() {
         global $FULLME;
 
+        if (during_initial_install() || isset($CFG->upgraderunning)) {
+            // Do nothing during installation or upgrade.
+            return;
+        }
+
+        // Exclude CLI scripts.
+        if (CLI_SCRIPT) {
+            return;
+        }
+
+        // Exclude web service requests.
+        if (WS_SERVER) {
+            return;
+        }
+
         static $processed = false;
 
         if ($processed) {
