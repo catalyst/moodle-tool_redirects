@@ -28,7 +28,7 @@ namespace tool_redirects;
 /**
  * Redirect helper
  */
-class helper_test extends \advanced_testcase {
+final class helper_test extends \advanced_testcase {
     /**
      * Initial set up.
      */
@@ -42,14 +42,14 @@ class helper_test extends \advanced_testcase {
     /**
      * Test config delimiter value.
      */
-    public function test__config_delimiter() {
+    public function test__config_delimiter(): void {
         $this->assertEquals('=>', \tool_redirects\helper::SETTINGS_DELIMITER);
     }
 
     /**
      * Test  building rules from empty config.
      */
-    public function test_build_rules_from_empty_config() {
+    public function test_build_rules_from_empty_config(): void {
         set_config('rules', '', 'tool_redirects');
 
         $rules = \tool_redirects\helper::build_rules_from_config();
@@ -61,7 +61,7 @@ class helper_test extends \advanced_testcase {
     /**
      * Test building rules form config correctly.
      */
-    public function test_build_rules_from_config() {
+    public function test_build_rules_from_config(): void {
         $rules = \tool_redirects\helper::build_rules_from_config();
 
         $this->assertTrue(is_array($rules));
@@ -79,7 +79,7 @@ class helper_test extends \advanced_testcase {
     /**
      * Test getting all rules correctly.
      */
-    public function test_get_all_rules() {
+    public function test_get_all_rules(): void {
         $rules = \tool_redirects\helper::get_all_rules();
 
         $this->assertTrue(is_array($rules));
@@ -93,5 +93,4 @@ class helper_test extends \advanced_testcase {
         $this->assertEquals(true, $rules[1]->is_enabled());
         $this->assertEquals('url2.com', $rules[1]->get_redirect_url()->get_host());
     }
-
 }

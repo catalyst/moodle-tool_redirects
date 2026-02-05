@@ -28,7 +28,7 @@ namespace tool_redirects;
 /**
  * Rules
  */
-class rule_config_test extends \advanced_testcase {
+final class rule_config_test extends \advanced_testcase {
     /**
      * Test data.
      *
@@ -44,7 +44,7 @@ class rule_config_test extends \advanced_testcase {
     /**
      * Test get exception when trying to set and then get random property.
      */
-    public function test_that_can_not_set_random_property() {
+    public function test_that_can_not_set_random_property(): void {
         $this->expectException(\moodle_exception::class);
         $this->data['random'] = 'random';
         $config = new \tool_redirects\rule_config($this->data);
@@ -54,7 +54,7 @@ class rule_config_test extends \advanced_testcase {
     /**
      * Test get exception when getting invalid property.
      */
-    public function test_throw_exception_on_invalid_property() {
+    public function test_throw_exception_on_invalid_property(): void {
         $this->expectException(\moodle_exception::class);
         $config = new \tool_redirects\rule_config($this->data);
         $test = $config->invalid;
@@ -63,7 +63,7 @@ class rule_config_test extends \advanced_testcase {
     /**
      * Test defaults.
      */
-    public function test_properties_defaults() {
+    public function test_properties_defaults(): void {
         $config = new \tool_redirects\rule_config([]);
         $this->assertEquals('', $config->regex);
         $this->assertEquals('', $config->redirecturl);
@@ -74,12 +74,11 @@ class rule_config_test extends \advanced_testcase {
     /**
      * Test can set and then get properties.
      */
-    public function test_can_set_and_get_properties() {
+    public function test_can_set_and_get_properties(): void {
         $config = new \tool_redirects\rule_config($this->data);
         $this->assertEquals('test regex', $config->regex);
         $this->assertEquals('test redirect url', $config->redirecturl);
         $this->assertEquals(false, $config->enabled);
         $this->assertEquals(true, $config->redirectadmin);
     }
-
 }

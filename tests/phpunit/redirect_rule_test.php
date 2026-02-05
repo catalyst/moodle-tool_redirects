@@ -28,7 +28,7 @@ namespace tool_redirects;
 /**
  * Tests
  */
-class redirect_rule_test extends \advanced_testcase {
+final class redirect_rule_test extends \advanced_testcase {
     /**
      * Test config data.
      *
@@ -56,7 +56,7 @@ class redirect_rule_test extends \advanced_testcase {
     /**
      * Test that can check if a rule is enabled based on config.
      */
-    public function test_can_check_if_enabled() {
+    public function test_can_check_if_enabled(): void {
         $config = new \tool_redirects\rule_config($this->configdata);
         $validator = new \tool_redirects\regex_validator($config->regex);
         $rule = new \tool_redirects\redirect_rule($config, $validator);
@@ -72,7 +72,7 @@ class redirect_rule_test extends \advanced_testcase {
     /**
      * Test that can get redirect URL based on config.
      */
-    public function test_can_get_redirect_url() {
+    public function test_can_get_redirect_url(): void {
         $config = new \tool_redirects\rule_config($this->configdata);
         $validator = new \tool_redirects\regex_validator($config->regex);
         $rule = new \tool_redirects\redirect_rule($config, $validator);
@@ -86,7 +86,7 @@ class redirect_rule_test extends \advanced_testcase {
     /**
      * Test that should not redirect from external URLs.
      */
-    public function test_should_not_redirect_from_external_urls() {
+    public function test_should_not_redirect_from_external_urls(): void {
         $this->setAdminUser();
 
         $this->configdata['regex'] = '#.*#'; // Any path.
@@ -100,7 +100,7 @@ class redirect_rule_test extends \advanced_testcase {
     /**
      * Test that admin users are redirected based on redirectadmin config option.
      */
-    public function test_that_admins_are_redirected_based_on_redirectadmin_option() {
+    public function test_that_admins_are_redirected_based_on_redirectadmin_option(): void {
         $this->setAdminUser();
 
         $this->configdata['regex'] = '#.*#'; // Any path.
@@ -121,7 +121,7 @@ class redirect_rule_test extends \advanced_testcase {
     /**
      * Test that admins can use backdoor option and avoid redirect.
      */
-    public function test_that_admins_can_use_backdoor_option() {
+    public function test_that_admins_can_use_backdoor_option(): void {
         $this->setAdminUser();
 
         $this->configdata['regex'] = '#.*#'; // Any path.
@@ -138,7 +138,7 @@ class redirect_rule_test extends \advanced_testcase {
     /**
      * Test that not admin users can't use backdoor oprion.
      */
-    public function test_that_not_admins_can_not_use_backdoor_option() {
+    public function test_that_not_admins_can_not_use_backdoor_option(): void {
         $this->configdata['regex'] = '#.*#'; // Any path.
 
         $config = new \tool_redirects\rule_config($this->configdata);
@@ -153,7 +153,7 @@ class redirect_rule_test extends \advanced_testcase {
     /**
      * Test that never redirects if broken regex rule provided.
      */
-    public function test_should_not_redirect_on_broken_regex() {
+    public function test_should_not_redirect_on_broken_regex(): void {
         $this->configdata['regex'] = '1'; // Broken regex rule.
 
         $config = new \tool_redirects\rule_config($this->configdata);
@@ -161,5 +161,4 @@ class redirect_rule_test extends \advanced_testcase {
         $rule = new \tool_redirects\redirect_rule($config, $validator);
         $this->assertFalse($rule->should_redirect(new \moodle_url('http://example.com/index.php')));
     }
-
 }

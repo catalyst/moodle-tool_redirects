@@ -46,4 +46,3 @@ function tool_redirects_before_http_headers() {
 function tool_redirects_after_config() {
     \tool_redirects\helper::redirect_from_rules();
 }
-

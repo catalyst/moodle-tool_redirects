@@ -26,7 +26,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 if (is_siteadmin()) {
-
     $category = new admin_category('tool_redirects', get_string('pluginname', 'tool_redirects'));
     $ADMIN->add('tools', $category);
 

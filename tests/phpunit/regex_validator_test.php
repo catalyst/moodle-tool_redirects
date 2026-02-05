@@ -30,8 +30,7 @@ use tool_redirects\regex_validator;
 /**
  * Tests
  */
-class regex_validator_test extends \advanced_testcase {
-
+final class regex_validator_test extends \advanced_testcase {
     /**
      * Provider
      *
@@ -57,7 +56,7 @@ class regex_validator_test extends \advanced_testcase {
      * @param string $regex
      * @param bool $acceptable
      */
-    public function test_it_validates_the_regex($regex, $acceptable) {
+    public function test_it_validates_the_regex($regex, $acceptable): void {
         $validator = new regex_validator($regex);
         $error = $validator->get_error();
         self::assertSame($acceptable, $validator->is_valid(), "{$regex} -> {$error}");
@@ -70,7 +69,7 @@ class regex_validator_test extends \advanced_testcase {
      */
     public function provider_for_test_it_throws_exception_if_regex_is_not_string(): array {
         return [
-            [array(1)],
+            [[1]],
             [new \stdClass()],
             [1],
         ];
@@ -81,7 +80,7 @@ class regex_validator_test extends \advanced_testcase {
      * @dataProvider provider_for_test_it_throws_exception_if_regex_is_not_string
      * @param string $regex
      */
-    public function test_it_throws_exception_if_regex_is_not_string($regex) {
+    public function test_it_throws_exception_if_regex_is_not_string($regex): void {
         $this->expectException(\moodle_exception::class);
         $validator = new regex_validator($regex);
     }

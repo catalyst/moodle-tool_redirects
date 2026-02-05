@@ -118,7 +118,6 @@ abstract class helper {
 
         foreach ($rules as $rule) {
             if ($rule->is_enabled() && $rule->should_redirect(new \moodle_url($FULLME))) {
-
                 $target = $rule->get_redirect_url();
 
                 // Check of backdoor for admins in case of a horrible mistake happened.

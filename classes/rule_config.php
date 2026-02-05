@@ -85,5 +85,4 @@ class rule_config {
 
         return $this->$name;
     }
-
 }

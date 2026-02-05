@@ -47,7 +47,7 @@ class regex_validator implements rule_validator_interface {
      * @param string $regex
      * @param array $options
      */
-    public function __construct($regex, $options = array()) {
+    public function __construct($regex, $options = []) {
         if (!is_string($regex)) {
             throw new \coding_exception('Expecting regex to be a string');
         }
@@ -112,5 +112,4 @@ class regex_validator implements rule_validator_interface {
         $this->contents = substr($this->regex, 1, strlen($this->regex) - strlen($flags) - 1);
         $this->flags = (strlen($flags) == 1) ? '' : substr($flags, 1);
     }
-
 }
