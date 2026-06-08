@@ -36,7 +36,7 @@ final class regex_validator_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function provider_for_test_it_validates_the_regex(): array {
+    public static function provider_for_test_it_validates_the_regex(): array {
         return [
             'Empty RegEx is valid.'            => ['', true],
             'RegEx is too short'               => ['//', true],
@@ -67,7 +67,7 @@ final class regex_validator_test extends \advanced_testcase {
      *
      * @return array
      */
-    public function provider_for_test_it_throws_exception_if_regex_is_not_string(): array {
+    public static function provider_for_test_it_throws_exception_if_regex_is_not_string(): array {
         return [
             [[1]],
             [new \stdClass()],
