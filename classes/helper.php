@@ -98,13 +98,8 @@ abstract class helper {
             return;
         }
 
-        // Exclude CLI scripts.
-        if (CLI_SCRIPT) {
-            return;
-        }
-
-        // Exclude web service requests.
-        if (WS_SERVER) {
+        // Exclude requests where a redirect is meaningless: web services, CLI and AJAX.
+        if (WS_SERVER || CLI_SCRIPT || (defined('AJAX_SCRIPT') && AJAX_SCRIPT)) {
             return;
         }
 
