@@ -175,7 +175,10 @@ final class redirect_rule_test extends \advanced_testcase {
         $validator = new \tool_redirects\regex_validator($config->regex);
         $rule = new \tool_redirects\redirect_rule($config, $validator);
 
-        $url = new \moodle_url('http://example.com/index.php', ['criteria' => [['key' => 'parent']]]);
+        // Pass the nested array via the query string, not the params argument: moodle_url::params()
+        // rejects array values outright, but the constructor parse_str()'s a raw query straight into
+        // $params, which is exactly how such a URL reaches us from a real request.
+        $url = new \moodle_url('http://example.com/index.php?criteria[0][key]=parent');
 
         $this->assertFalse($rule->should_redirect($url));
         $this->assertDebuggingCalled();
