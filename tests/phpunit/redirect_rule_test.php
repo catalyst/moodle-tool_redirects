@@ -161,4 +161,26 @@ final class redirect_rule_test extends \advanced_testcase {
         $rule = new \tool_redirects\redirect_rule($config, $validator);
         $this->assertFalse($rule->should_redirect(new \moodle_url('http://example.com/index.php')));
     }
+
+    /**
+     * Test that a URL with deeply nested array query params does not fatal rule matching.
+     *
+     * core\url::get_query_string() throws a TypeError on such URLs; the rule must treat it
+     * as not matching instead of letting the error bubble up and kill the request.
+     */
+    public function test_should_not_redirect_on_nested_array_url(): void {
+        $this->configdata['regex'] = '#.*#'; // Matches anything, so a match would normally fire.
+
+        $config = new \tool_redirects\rule_config($this->configdata);
+        $validator = new \tool_redirects\regex_validator($config->regex);
+        $rule = new \tool_redirects\redirect_rule($config, $validator);
+
+        // Pass the nested array via the query string, not the params argument: moodle_url::params()
+        // rejects array values outright, but the constructor parse_str()'s a raw query straight into
+        // $params, which is exactly how such a URL reaches us from a real request.
+        $url = new \moodle_url('http://example.com/index.php?criteria[0][key]=parent');
+
+        $this->assertFalse($rule->should_redirect($url));
+        $this->assertDebuggingCalled();
+    }
 }
