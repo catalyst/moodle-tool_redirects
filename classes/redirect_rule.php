@@ -102,10 +102,7 @@ class redirect_rule {
         try {
             $localurl = $url->out_as_local_url();
         } catch (\Throwable $e) {
-            // core\url::get_query_string() throws a TypeError when the URL carries deeply
-            // nested array query params (e.g. ?criteria[0][key]=...). A URL we cannot even
-            // encode can never match a rule, so don't let it fatal the request - catch
-            // \Throwable (an Error, not an Exception) and treat the rule as not matching.
+            // A URL we cannot encode can never match a rule, so don't let it fatal the request.
             debugging('tool_redirects: could not encode URL for rule matching: ' .
                 $e->getMessage(), DEBUG_DEVELOPER);
             return false;
