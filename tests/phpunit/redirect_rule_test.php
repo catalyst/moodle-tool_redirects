@@ -163,22 +163,27 @@ final class redirect_rule_test extends \advanced_testcase {
     }
 
     /**
-     * Test that a URL with deeply nested array query params does not fatal rule matching.
-     *
-     * core\url::get_query_string() throws a TypeError on such URLs; the rule must treat it
-     * as not matching instead of letting the error bubble up and kill the request.
+     * Test that URLs which cannot be encoded do not fatal rule matching.
      */
-    public function test_should_not_redirect_on_nested_array_url(): void {
+    public function test_should_not_redirect_when_url_cannot_be_encoded(): void {
         $this->configdata['regex'] = '#.*#'; // Matches anything, so a match would normally fire.
 
         $config = new \tool_redirects\rule_config($this->configdata);
         $validator = new \tool_redirects\regex_validator($config->regex);
         $rule = new \tool_redirects\redirect_rule($config, $validator);
 
-        // Pass the nested array via the query string, not the params argument: moodle_url::params()
-        // rejects array values outright, but the constructor parse_str()'s a raw query straight into
-        // $params, which is exactly how such a URL reaches us from a real request.
-        $url = new \moodle_url('http://example.com/index.php?criteria[0][key]=parent');
+        $url = new class ('http://example.com/index.php') extends \moodle_url {
+            /**
+             * Force the rule's defensive handling of unencodable URLs.
+             *
+             * @param bool $escaped
+             * @param array|null $overrideparams
+             * @return string
+             */
+            public function out_as_local_url($escaped = true, ?array $overrideparams = null) {
+                throw new \TypeError('Could not encode URL');
+            }
+        };
 
         $this->assertFalse($rule->should_redirect($url));
         $this->assertDebuggingCalled();
