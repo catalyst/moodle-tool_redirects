@@ -188,4 +188,83 @@ final class redirect_rule_test extends \advanced_testcase {
         $this->assertFalse($rule->should_redirect($url));
         $this->assertDebuggingCalled();
     }
+
+    /**
+     * Test that an empty loginstate redirects everyone (logged-in and logged-out).
+     */
+    public function test_loginstate_empty_redirects_everyone(): void {
+        $this->configdata['regex'] = '#\/index\.php#';
+        $this->configdata['loginstate'] = '';
+
+        $config = new \tool_redirects\rule_config($this->configdata);
+        $validator = new \tool_redirects\regex_validator($config->regex);
+        $rule = new \tool_redirects\redirect_rule($config, $validator);
+        $url = new \moodle_url('http://example.com/index.php');
+
+        // Guest (not logged in) — should redirect.
+        $this->setGuestUser();
+        $this->assertTrue($rule->should_redirect($url));
+
+        // Authenticated user — should also redirect.
+        $user = $this->getDataGenerator()->create_user();
+        $this->setUser($user);
+        $this->assertTrue($rule->should_redirect($url));
+    }
+
+    /**
+     * Test that loginstate 'loggedout' redirects only guests/not-logged-in users.
+     */
+    public function test_loginstate_loggedout_redirects_only_guests(): void {
+        $this->configdata['regex'] = '#\/index\.php#';
+        $this->configdata['loginstate'] = 'loggedout';
+
+        $config = new \tool_redirects\rule_config($this->configdata);
+        $validator = new \tool_redirects\regex_validator($config->regex);
+        $rule = new \tool_redirects\redirect_rule($config, $validator);
+        $url = new \moodle_url('http://example.com/index.php');
+
+        // Guest (not logged in) — should redirect.
+        $this->setGuestUser();
+        $this->assertTrue($rule->should_redirect($url));
+
+        // Authenticated user — should NOT redirect.
+        $user = $this->getDataGenerator()->create_user();
+        $this->setUser($user);
+        $this->assertFalse($rule->should_redirect($url));
+    }
+
+    /**
+     * Test that loginstate 'loggedin' redirects only authenticated users.
+     */
+    public function test_loginstate_loggedin_redirects_only_authenticated(): void {
+        $this->configdata['regex'] = '#\/index\.php#';
+        $this->configdata['loginstate'] = 'loggedin';
+
+        $config = new \tool_redirects\rule_config($this->configdata);
+        $validator = new \tool_redirects\regex_validator($config->regex);
+        $rule = new \tool_redirects\redirect_rule($config, $validator);
+        $url = new \moodle_url('http://example.com/index.php');
+
+        // Guest (not logged in) — should NOT redirect.
+        $this->setGuestUser();
+        $this->assertFalse($rule->should_redirect($url));
+
+        // Authenticated user — should redirect.
+        $user = $this->getDataGenerator()->create_user();
+        $this->setUser($user);
+        $this->assertTrue($rule->should_redirect($url));
+    }
+
+    /**
+     * Test that get_loginstate returns the configured value.
+     */
+    public function test_get_loginstate_returns_configured_value(): void {
+        foreach (['', 'loggedout', 'loggedin'] as $state) {
+            $this->configdata['loginstate'] = $state;
+            $config = new \tool_redirects\rule_config($this->configdata);
+            $validator = new \tool_redirects\regex_validator($config->regex);
+            $rule = new \tool_redirects\redirect_rule($config, $validator);
+            $this->assertEquals($state, $rule->get_loginstate());
+        }
+    }
 }

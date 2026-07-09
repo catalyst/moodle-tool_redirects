@@ -43,6 +43,13 @@ $string['rules_desc'] = '<p>Each line should be a redirect rule like [php regex 
 #\/index\.php#=>/some-other-page
 #\/index\.php#=>https://some.other.site.com/
 </pre>
+<p>You can optionally append a third <code>=></code> segment to apply the rule only to logged-out or logged-in users:</p>
+<pre>
+#\/index\.php#=>/login/index.php=>loggedout
+#\/dashboard#=>/login/index.php=>loggedout
+#\/index\.php#=>/home=>loggedin
+</pre>
+<p>Supported values: <code>loggedout</code> (guests / not authenticated), <code>loggedin</code> (authenticated users). Omit the third segment to redirect everyone.</p>
 <p>You can also use the following tokens in the redirect url which will be dynamcially added:<p>
 <pre>
 [SESSKEY] - use with care to not open up XSS vulnerabilities

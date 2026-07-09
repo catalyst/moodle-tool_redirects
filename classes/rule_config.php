@@ -58,6 +58,15 @@ class rule_config {
     protected $redirectadmin = false;
 
     /**
+     * Login state condition for this rule.
+     * '' = apply to everyone, 'loggedout' = apply only to guests/not-logged-in, 'loggedin' = apply only to logged-in users.
+     *
+     * @var string
+     */
+    protected $loginstate = '';
+
+
+    /**
      * Constructor.
      *
      * @param array $data Config data for a rule.
