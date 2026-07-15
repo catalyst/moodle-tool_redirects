@@ -43,6 +43,10 @@ $string['rules_desc'] = '<p>Each line should be a redirect rule like [php regex 
 #\/index\.php#=>/some-other-page
 #\/index\.php#=>https://some.other.site.com/
 </pre>
+<p>Rules are matched against both the local path AND the full URL (including the host), so you can target a specific tenant / custom domain, eg redirect only one tenant\'s root to its login page for logged-out users:</p>
+<pre>
+#^https:\/\/example.com\/(index\.php)?#=>http://example.com/login/index.php=>loggedout
+</pre>
 <p>You can also use the following tokens in the redirect url which will be dynamcially added:<p>
 <pre>
 [SESSKEY] - use with care to not open up XSS vulnerabilities
