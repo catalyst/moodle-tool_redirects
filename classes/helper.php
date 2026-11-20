@@ -77,6 +77,7 @@ abstract class helper {
                         'redirecturl' => $data[1],
                         'enabled' => true,
                         'redirectadmin' => isset($config->redirectadmin) ? $config->redirectadmin : false,
+                        'loginstate' => isset($data[2]) ? trim($data[2]) : '',
                     ]);
 
                     $rules[] = new redirect_rule($ruleconfig, new regex_validator($ruleconfig->regex));

@@ -77,6 +77,15 @@ class redirect_rule {
         return $this->config->regex;
     }
 
+    /**
+     * Return the login state condition for this rule.
+     * '' = everyone, 'loggedout' = guests/not-logged-in, 'loggedin' = authenticated users.
+     *
+     * @return string
+     */
+    public function get_loginstate() {
+        return $this->config->loginstate;
+    }
 
     /**
      * Check if we should redirect from provided URL.
@@ -96,6 +105,17 @@ class redirect_rule {
 
         // Check valid rule.
         if (!$this->validator->is_valid()) {
+            return false;
+        }
+
+        // Check login state condition.
+        $loginstate = $this->config->loginstate;
+        if ($loginstate === 'loggedout' && isloggedin() && !isguestuser()) {
+            // Rule is for logged-out users only, but user is logged in.
+            return false;
+        }
+        if ($loginstate === 'loggedin' && (!isloggedin() || isguestuser())) {
+            // Rule is for logged-in users only, but user is not logged in.
             return false;
         }
 

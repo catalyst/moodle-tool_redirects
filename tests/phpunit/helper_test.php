@@ -93,4 +93,22 @@ final class helper_test extends \advanced_testcase {
         $this->assertEquals(true, $rules[1]->is_enabled());
         $this->assertEquals('url2.com', $rules[1]->get_redirect_url()->get_host());
     }
+
+    /**
+     * Test that loginstate is correctly parsed from the third '=>' segment of a rule line.
+     */
+    public function test_build_rules_parses_loginstate(): void {
+        set_config('rules', implode("\n", [
+            "#\/index\.php#=>/login/index.php=>loggedout",
+            "#\/dashboard#=>/login/index.php=>loggedin",
+            "#\/other#=>/somewhere",
+        ]), 'tool_redirects');
+
+        $rules = \tool_redirects\helper::build_rules_from_config();
+
+        $this->assertCount(3, $rules);
+        $this->assertEquals('loggedout', $rules[0]->get_loginstate());
+        $this->assertEquals('loggedin', $rules[1]->get_loginstate());
+        $this->assertEquals('', $rules[2]->get_loginstate());
+    }
 }
