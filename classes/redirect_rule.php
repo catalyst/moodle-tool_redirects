@@ -99,8 +99,12 @@ class redirect_rule {
             return false;
         }
 
+        // Match against the local path (default) or the full URL including the host.
+        // Matching the full URL allows targeting a specific tenant/custom domain,
+        // e.g. #^http://example.com\/(index\.php)?#.
         try {
             $localurl = $url->out_as_local_url();
+            $fullurl = $url->out(false);
         } catch (\Throwable $e) {
             // A URL we cannot encode can never match a rule, so don't let it fatal the request.
             debugging('tool_redirects: could not encode URL for rule matching: ' .
@@ -108,7 +112,8 @@ class redirect_rule {
             return false;
         }
 
-        return (preg_match($this->config->regex, $localurl) == 1);
+        return (preg_match($this->config->regex, $localurl) == 1
+            || preg_match($this->config->regex, $fullurl) == 1);
     }
 
     /**

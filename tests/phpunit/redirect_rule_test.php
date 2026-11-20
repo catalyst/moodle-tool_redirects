@@ -188,4 +188,21 @@ final class redirect_rule_test extends \advanced_testcase {
         $this->assertFalse($rule->should_redirect($url));
         $this->assertDebuggingCalled();
     }
+
+    /**
+     * Test that a rule can match the full URL (including host) to target a specific tenant domain.
+     */
+    public function test_should_redirect_matches_full_url_host(): void {
+        $this->setAdminUser();
+
+        // Rule targets a specific host only.
+        $this->configdata['regex'] = '#^http://example.com/index\.php#';
+
+        $config = new \tool_redirects\rule_config($this->configdata);
+        $validator = new \tool_redirects\regex_validator($config->regex);
+        $rule = new \tool_redirects\redirect_rule($config, $validator);
+
+        // Matching host — should redirect.
+        $this->assertTrue($rule->should_redirect(new \moodle_url('http://example.com/index.php')));
+    }
 }
